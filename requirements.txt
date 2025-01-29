@@ -2,6 +2,7 @@ goodfire
 gymnasium
 numpy
 python-dotenv
+redis
 stable_baselines3
 tenacity
 torch

@@ -4,12 +4,46 @@ from constants import RETRY_COUNT, SLEEP_TIME
 import goodfire
 import dotenv
 import tenacity
+import redis
+from datetime import datetime
 
 dotenv.load_dotenv()
 
 client = goodfire.Client(
     os.getenv('GOODFIRE_API_KEY'),
 )
+
+class RedisRateLimiter:
+    def __init__(self, requests_per_minute=100):
+        self.redis_client = redis.Redis(host='localhost', port=6379, db=0)
+        self.requests_per_minute = requests_per_minute
+        self.window_size = 60  # 60 seconds
+        self.key = "goodfire_api_calls"
+
+    def acquire(self, blocking=True):
+        while True:
+            now = datetime.now().timestamp()
+            pipeline = self.redis_client.pipeline()
+            
+            # Remove old timestamps
+            pipeline.zremrangebyscore(self.key, 0, now - self.window_size)
+            # Add current timestamp
+            pipeline.zadd(self.key, {str(now): now})
+            # Count requests in window
+            pipeline.zcount(self.key, now - self.window_size, now)
+            
+            _, _, request_count = pipeline.execute()
+            
+            if request_count <= self.requests_per_minute:
+                return True
+            
+            if not blocking:
+                return False
+                
+            time.sleep(0.1)  # Wait 100ms before trying again
+
+# Create a global rate limiter instance
+rate_limiter = RedisRateLimiter(requests_per_minute=100)
 
 def get_top_features(agent, state, move, api_format):
     context = client.features.inspect(
@@ -75,6 +109,7 @@ def get_completion(model, api_format):
 @tenacity.retry(stop=tenacity.stop_after_attempt(3), wait=tenacity.wait_exponential(multiplier=2, min=15, max=60), retry=tenacity.retry_if_exception_type(goodfire.api.exceptions.RateLimitException))
 def _get_completion_with_retry(model, api_format):
     try:
+        rate_limiter.acquire()  # This will block until we can make a request
         completion = client.chat.completions.create(
             model=model,
             messages=[
