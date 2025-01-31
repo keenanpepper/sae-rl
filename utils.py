@@ -13,6 +13,8 @@ client = goodfire.Client(
     os.getenv('GOODFIRE_API_KEY'),
 )
 
+client.chat.completions._http._async_http.max_retries = 0
+
 class RedisRateLimiter:
     def __init__(self, requests_per_minute=100):
         self.redis_client = redis.Redis(host='localhost', port=6379, db=0)
@@ -24,26 +26,26 @@ class RedisRateLimiter:
         while True:
             now = datetime.now().timestamp()
             pipeline = self.redis_client.pipeline()
+
+            # Remove old timestamps and count current requests
+            cutoff = now - self.window_size
+            pipeline.zremrangebyscore(self.key, '-inf', cutoff)
+            pipeline.zcount(self.key, cutoff, '+inf')
             
-            # Remove old timestamps
-            pipeline.zremrangebyscore(self.key, 0, now - self.window_size)
-            # Add current timestamp
-            pipeline.zadd(self.key, {str(now): now})
-            # Count requests in window
-            pipeline.zcount(self.key, now - self.window_size, now)
-            
-            _, _, request_count = pipeline.execute()
-            
-            if request_count <= self.requests_per_minute:
+            _, request_count = pipeline.execute()
+
+            if request_count < self.requests_per_minute:  # Changed <= to < since we'll add one more
+                # Only add the timestamp if we're allowing the request
+                self.redis_client.zadd(self.key, {f"{now:.6f}": now})
                 return True
-            
+
             if not blocking:
                 return False
-                
+
             time.sleep(0.1)  # Wait 100ms before trying again
 
 # Create a global rate limiter instance
-rate_limiter = RedisRateLimiter(requests_per_minute=100)
+rate_limiter = RedisRateLimiter(requests_per_minute=50)
 
 def get_top_features(agent, state, move, api_format):
     context = client.features.inspect(
@@ -103,10 +105,10 @@ def get_completion(model, api_format):
     try:
         return _get_completion_with_retry(model, api_format)
     except tenacity.RetryError:
-        print("Gave up after 3 retries (60 seconds) due to rate limiting")
+        print("GAVE UP")
         raise
 
-@tenacity.retry(stop=tenacity.stop_after_attempt(3), wait=tenacity.wait_exponential(multiplier=2, min=15, max=60), retry=tenacity.retry_if_exception_type(goodfire.api.exceptions.RateLimitException))
+@tenacity.retry(stop=tenacity.stop_after_attempt(10), wait=tenacity.wait_incrementing(start=10, increment=10), retry=tenacity.retry_if_exception_type(goodfire.api.exceptions.RateLimitException))
 def _get_completion_with_retry(model, api_format):
     try:
         rate_limiter.acquire()  # This will block until we can make a request
