@@ -12,9 +12,9 @@ from stable_baselines3.common.env_util import make_vec_env
 from stable_baselines3.common.vec_env import SubprocVecEnv
 from stable_baselines3.common.monitor import Monitor
 
-def baseline_experiment(agent, env, num_games=NUM_GAMES):
+def baseline_experiment(agent, env, num_games=NUM_GAMES, verbose=False):
     for _ in tqdm(range(num_games)):
-        regular_game(agent, env)
+        regular_game(agent, env, verbose)
         
 def saerl_learning(agent, env, num_steps):
     
@@ -58,7 +58,7 @@ def regular_game(student, env, verbose=False):
         
         state = new_state
 
-def run_experiment(num_games=NUM_GAMES, get_context=False, use_rl_agent=False, test_agent=False, use_checkpoint=False):
+def run_experiment(num_games=NUM_GAMES, get_context=False, use_rl_agent=False, test_agent=False, use_checkpoint=False, verbose=False):
     
     move_checker = MoveChecker()
     teacher = OptimalAgent(TEACHER, move_checker)
@@ -79,7 +79,7 @@ def run_experiment(num_games=NUM_GAMES, get_context=False, use_rl_agent=False, t
     else:
         student = LLMAgent(STUDENT, get_context=get_context)
         env = TicTacToeEnv(move_checker, teacher)
-        baseline_experiment(student, env, num_games)
+        baseline_experiment(student, env, num_games, verbose=verbose)
     
     # Determines whether to use the context or not
     # The context takes a long time to generate

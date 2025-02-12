@@ -1,0 +1,21 @@
+,0
+"Feature(""The number 9 in statistical and numerical sequence contexts"")",3
+"Feature(""The assistant is presenting or describing ordered options or items"")",3
+"Feature(""Technical writing about data structures and programming concepts"")",3
+"Feature(""Maximum value in rating scales (typically 10 or 100)"")",3
+"Feature(""The assistant should provide Tic Tac Toe implementation code"")",2
+"Feature(""The number 8 in statistical and predictive modeling contexts"")",4
+"Feature(""Middle column (B) values in structured data examples"")",4
+"Feature(""ASCII art game boards and grid representations"")",9
+"Feature(""Comma-separated numbers in structured data contexts"")",7
+"Feature(""Delimiter before final number in lottery-style sequences"")",4
+"Feature(""The number 5 in numerical contexts"")",3
+"Feature(""Higher numbers (20-45) in lottery sequences"")",3
+"Feature(""The number 2 in Python code examples and data structures"")",4
+"Feature(""The literal number 2"")",2
+"Feature(""Sequences of consecutive small integers with commas"")",2
+"Feature(""HTTP request handling and query parameter access in code"")",2
+"Feature(""Start of a new conversation segment, especially for multilingual conversations"")",1
+"Feature(""Epistemological discussions about the nature and limitations of knowledge"")",1
+"Feature(""Type declarations and parameter lists in programming code"")",1
+"Feature(""Small integer constants used for array dimensions and buffer sizes in programming"")",1
