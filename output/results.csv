@@ -1,30 +1,21 @@
 ,0
-"Feature(""Small positive integers (1-23) in code and data structures"")",20
-"Feature(""Activation on the numeral 5, especially in scientific contexts"")",9
-"Feature(""The model's turn to respond in ASCII-based games"")",21
-"Feature(""May dates in SQL queries"")",9
-"Feature(""Numerical patterns and sequences in structured data"")",13
-"Feature(""Representation of the number 2 or second position"")",6
-"Feature(""Detection of the numeral 2"")",6
-"Feature(""Grid-based representations in games and visual patterns"")",6
-"Feature(""Numbered list items in language processing tasks"")",6
-"Feature(""The number 4"")",3
-"Feature(""Small to medium numbers in structured lists or game results"")",8
-"Feature(""ASCII art vertical lines and forward slashes"")",3
-"Feature(""The model should complete a code snippet for a simple game implementation"")",3
-"Feature(""Sequences or groups of consecutive numbers"")",9
-"Feature(""The number 7"")",5
-"Feature(""Sequential number listing activation"")",7
-"Feature(""Numbers ending in 8 in sequential lists"")",4
-"Feature(""The number 8 in technical or quantitative contexts"")",4
-"Feature(""The number 6 in sequences or lists"")",2
-"Feature(""Small integer and decimal representation"")",2
-"Feature(""ASCII art structural elements (vertical lines and box-drawing characters)"")",2
-"Feature(""Upper bounds in programming examples (often 100 or 200)"")",2
-"Feature(""Time representation in schedules and daily life"")",2
-"Feature(""Recognition of the number 9 in scientific contexts"")",2
-"Feature(""Sales Performance Metrics and Comparisons"")",2
-"Feature(""Recognition of the number 3 (digit or word)"")",1
-"Feature(""Detecting win-checking code in game implementations"")",1
-"Feature(""Recognition of '3' or 'Three' in 3D-related contexts"")",1
-"Feature(""Describing core gameplay mechanics and scoring in sports"")",1
+"Feature(""The number 9 in statistical and numerical sequence contexts"")",3
+"Feature(""The assistant is presenting or describing ordered options or items"")",3
+"Feature(""Technical writing about data structures and programming concepts"")",3
+"Feature(""Maximum value in rating scales (typically 10 or 100)"")",3
+"Feature(""The assistant should provide Tic Tac Toe implementation code"")",2
+"Feature(""The number 8 in statistical and predictive modeling contexts"")",4
+"Feature(""Middle column (B) values in structured data examples"")",4
+"Feature(""ASCII art game boards and grid representations"")",9
+"Feature(""Comma-separated numbers in structured data contexts"")",7
+"Feature(""Delimiter before final number in lottery-style sequences"")",4
+"Feature(""The number 5 in numerical contexts"")",3
+"Feature(""Higher numbers (20-45) in lottery sequences"")",3
+"Feature(""The number 2 in Python code examples and data structures"")",4
+"Feature(""The literal number 2"")",2
+"Feature(""Sequences of consecutive small integers with commas"")",2
+"Feature(""HTTP request handling and query parameter access in code"")",2
+"Feature(""Start of a new conversation segment, especially for multilingual conversations"")",1
+"Feature(""Epistemological discussions about the nature and limitations of knowledge"")",1
+"Feature(""Type declarations and parameter lists in programming code"")",1
+"Feature(""Small integer constants used for array dimensions and buffer sizes in programming"")",1
